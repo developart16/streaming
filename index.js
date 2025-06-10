@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const app = require('express')();
 // const app = express();
 const PORT = 3003;
@@ -12,7 +13,7 @@ app.get('/music/:song', (req, res)=>{
     const { song } = req.params
     if ( !song ) return res.status(400).send("Someting went wrong with the request");
 
-    const filePath = `./music/${song}`
+    const filePath = path.join(__dirname, 'music', path.basename(song))
     if( !fs.existsSync(filePath) ) return res.status(404).send("Music not found")
     
     const { range = "bytes=0-"} = req.headers;
